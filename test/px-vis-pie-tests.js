@@ -141,6 +141,26 @@ function runTests(){
       }, 10);
     });
 
+    test('click on slice emits px-vis-pie-slice-clicked event with slice data', function(done) {
+      console.log(basePie.pieGroup)
+      var slice = basePie.pieGroup._groups[0][0].firstChild,
+        evt = document.createEvent("MouseEvent"),
+        sliceName = slice.__data__.data.y;
+
+      evt.initMouseEvent("tap",true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+      basePie.addEventListener('px-vis-pie-slice-clicked', function (e) {
+        var eventSliceName = e.detail.data.y;
+        assert.equal(sliceName, eventSliceName);
+      });
+      //click
+      slice.dispatchEvent(evt);
+
+      setTimeout(function() {
+
+        done();
+      }, 100);
+    });
+
   }); //suite
 
 
